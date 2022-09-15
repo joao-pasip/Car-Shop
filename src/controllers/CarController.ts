@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IService } from '../interfaces/IService';
 import { ICar } from '../interfaces/ICar';
 import CustomError from '../helpers/error/custom.error';
+import TypeMessageError from '../helpers/error/messages.error';
 
 export default class CarController {
   constructor(private _service: IService<ICar>) { }
@@ -27,7 +28,7 @@ export default class CarController {
     res: Response<ICar | null>,
   ) {
     const { id } = req.params;
-    if (id.length !== 24) throw new CustomError(400, 'Id must have 24 hexadecimal characters');
+    if (id.length !== 24) throw new CustomError(400, TypeMessageError.ID_INVALID);
     const carId = await this._service.readOne(id);
     return res.status(200).json(carId);
   }
@@ -36,7 +37,10 @@ export default class CarController {
     req: Request,
     res: Response<ICar | null>,
   ) {
-    const result = await this._service.update(req.params.id, req.body);
+    const { id } = req.params;
+    if (id.length !== 24) throw new CustomError(400, TypeMessageError.ID_INVALID);
+    if (!Object.keys(req.body).length) throw new CustomError(400, 'body vazio');
+    const result = await this._service.update(id, req.body);
     return res.status(200).json(result);
   }
 
@@ -45,7 +49,8 @@ export default class CarController {
     res: Response<ICar | null>,
   ) {
     const { id } = req.params;
+    if (id.length !== 24) throw new CustomError(400, TypeMessageError.ID_INVALID);
     const carId = await this._service.delete(id);
-    return res.status(200).json(carId);
+    return res.status(204).json(carId);
   }
 }
