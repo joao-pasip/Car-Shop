@@ -15,7 +15,7 @@ class CarService implements IService<ICar> {
     if (!parsed.success) {
       throw new CustomError(400, 'error na validação do ZOD');
     }
-    return this._car.create(obj);
+    return this._car.create(parsed.data);
   }
 
   public async read(): Promise<ICar[]> {
