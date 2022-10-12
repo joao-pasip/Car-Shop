@@ -2,3 +2,5 @@ node_modules
 coverage
 .nyc_output
 .env
+publisher.sh
+trybe-filter-repo.sh
