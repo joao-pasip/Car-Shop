@@ -74,4 +74,4 @@ Para iniciá-lo, siga os passos abaixo:
 
 Lembrando que o arquivo `.env.example` deverá ser renomeado para `.env` e a variável de ambiente contida nele deverá possuir uma `URI` válida.
 
-A API será executada na porta `3000`.
+A API será executada na porta `3000`..
